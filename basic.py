@@ -18,6 +18,49 @@ with open("inputEN.txt", "r", encoding="utf-8") as file:
 # 加载字体
 font = ImageFont.truetype(font_path, size=256)  # 替换为你的字体大小
 
+# 符号描述映射字典
+symbol_mapping = {
+    "!": "exclamation mark",
+    "(": "left parenthesis",
+    ")": "right parenthesis",
+    ",": "comma",
+    ".": "period",
+    "?": "question mark",
+    ";": "semicolon",
+    ":": "colon",
+    "'": "apostrophe",
+    '"': "quotation mark",
+    "-": "hyphen",
+    "—": "em dash",
+    "–": "en dash",
+    "…": "ellipsis",
+    " ": "space",
+    "/": "slash",
+    "\\": "backslash",
+    "[": "left bracket",
+    "]": "right bracket",
+    "{": "left brace",
+    "}": "right brace",
+    "<": "less than",
+    ">": "greater than",
+    "@": "at sign",
+    "#": "number sign",
+    "$": "dollar sign",
+    "%": "percent sign",
+    "^": "caret",
+    "&": "ampersand",
+    "*": "asterisk",
+    "_": "underscore",
+    "+": "plus sign",
+    "=": "equal sign",
+    "|": "vertical bar",
+    "~": "tilde",
+    "`": "grave accent",
+    "°": "degree sign",
+    "§": "section sign",
+    # 添加更多符号的映射
+}
+
 # 逐个生成图像和文本文件
 for i, char in enumerate(characters):
     # 创建一个新的图像对象
@@ -36,8 +79,20 @@ for i, char in enumerate(characters):
     # 保存图像为PNG格式
     image.save(image_filename)
 
+    # 生成对应的单词或描述
+    if char.isupper():
+        word = "upper case, "+char
+    elif char.islower():
+        word = "lower case, "+char
+    elif char.isalnum():
+        word = "number, "+char
+    elif char in symbol_mapping:
+        word = "symbol, " + symbol_mapping[char]
+    else:
+        word = "complex symbol,"+char
+
     # 保存文本文件
-    with open(text_filename, "w", encoding="utf-8") as text_file:
-        text_file.write(char)
+    with open(text_filename, "w+", encoding="utf-8") as text_file:
+        text_file.write(word)
 
 print("图像和文本生成完成！")
